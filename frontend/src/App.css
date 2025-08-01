@@ -12,8 +12,18 @@
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
 }
 
+/* Ensure proper mobile viewport */
+body {
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
 html {
   scroll-behavior: smooth;
+  /* Prevent horizontal scroll on mobile */
+  overflow-x: hidden;
 }
 
 /* Custom scrollbar */
@@ -50,11 +60,22 @@ html {
   cursor: pointer;
   box-shadow: 0 4px 15px rgba(34, 197, 94, 0.3);
   transform: translateY(0);
+  /* Better touch targets for mobile */
+  min-height: 44px;
+  min-width: 44px;
 }
 
 .btn-primary:hover {
   transform: translateY(-2px);
   box-shadow: 0 8px 25px rgba(34, 197, 94, 0.4);
+}
+
+/* Touch-friendly buttons on mobile */
+@media (max-width: 768px) {
+  .btn-primary {
+    padding: 14px 28px;
+    font-size: 16px; /* Prevent zoom on iOS */
+  }
 }
 
 /* Cool card effects */
@@ -94,5 +115,41 @@ html {
   50% {
     opacity: 0.8;
     transform: scale(1.05);
+  }
+}
+
+/* Mobile-specific optimizations */
+@media (max-width: 768px) {
+  /* Larger touch targets */
+  button, a, input[type="file"] {
+    min-height: 44px;
+  }
+  
+  /* Prevent zoom on inputs */
+  input, select, textarea {
+    font-size: 16px;
+  }
+  
+  /* Better spacing for mobile */
+  .container {
+    padding: 0 16px;
+  }
+  
+  /* Reduce motion for users who prefer it */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+/* Improve scrolling on iOS */
+@supports (-webkit-overflow-scrolling: touch) {
+  body {
+    -webkit-overflow-scrolling: touch;
   }
 }

@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 
 function UploadComponent({ 
   onFileSelect, 
@@ -9,124 +9,92 @@ function UploadComponent({
   handleFileInput 
 }) {
   const fileInputRef = useRef(null);
+  const [isDragOver, setIsDragOver] = useState(false);
 
   const handleDrop = (e) => {
     e.preventDefault();
+    setIsDragOver(false);
     const file = e.dataTransfer.files[0];
     onFileSelect(file);
   };
 
   const handleDragOver = (e) => {
     e.preventDefault();
+    setIsDragOver(true);
+  };
+
+  const handleDragLeave = (e) => {
+    e.preventDefault();
+    setIsDragOver(false);
   };
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center gap-2 mb-4">
-        <span className="text-xl"></span>
-        <h2 className="text-xl font-semibold text-gray-800">📁 Upload Image</h2>
+    <div className="space-y-4 sm:space-y-6">
+      {/* Header */}
+      <div className="flex items-center gap-2 mb-3 sm:mb-4">
+        <span className="text-lg sm:text-xl">📁</span>
+        <h2 className="text-lg sm:text-xl font-semibold text-gray-800">Upload Image</h2>
       </div>
       
+      {/* Upload Area */}
       <div 
-        style={{
-          border: `2px dashed ${selectedFile ? '#4CAF50' : '#ddd'}`,
-          borderRadius: '15px',
-          padding: '40px',
-          textAlign: 'center',
-          cursor: 'pointer',
-          background: selectedFile ? '#f0f8f0' : '#f9f9f9',
-          transition: 'all 0.3s ease'
-        }}
+        className={`
+          border-2 border-dashed rounded-xl sm:rounded-2xl p-6 sm:p-8 md:p-10 
+          text-center cursor-pointer transition-all duration-300 
+          ${selectedFile ? 'border-green-500 bg-green-50' : isDragOver ? 'border-green-400 bg-green-25' : 'border-gray-300 bg-gray-50'}
+          hover:border-green-400 hover:bg-green-25
+        `}
         onDrop={handleDrop}
         onDragOver={handleDragOver}
+        onDragLeave={handleDragLeave}
         onClick={() => fileInputRef.current?.click()}
       >
         {imagePreview ? (
-          <div>
-            <div style={{ position: 'relative', display: 'inline-block' }}>
+          <div className="space-y-3">
+            <div className="relative inline-block">
               <img 
                 src={imagePreview} 
                 alt="Preview" 
-                style={{ 
-                  width: '150px', 
-                  height: '150px', 
-                  objectFit: 'cover', 
-                  borderRadius: '10px',
-                  marginBottom: '15px',
-                  boxShadow: '0 4px 8px rgba(0,0,0,0.1)'
-                }}
+                className="w-24 h-24 sm:w-32 sm:h-32 md:w-40 md:h-40 object-cover rounded-xl shadow-lg"
               />
               <button
                 onClick={(e) => {
                   e.stopPropagation();
                   clearFile();
                 }}
-                style={{
-                  position: 'absolute',
-                  top: '-8px',
-                  right: '-8px',
-                  width: '24px',
-                  height: '24px',
-                  background: '#f44336',
-                  color: 'white',
-                  border: 'none',
-                  borderRadius: '50%',
-                  cursor: 'pointer',
-                  fontSize: '12px',
-                  fontWeight: 'bold',
-                  boxShadow: '0 2px 4px rgba(0,0,0,0.2)'
-                }}
+                className="absolute -top-2 -right-2 w-6 h-6 sm:w-7 sm:h-7 bg-red-500 hover:bg-red-600 text-white rounded-full text-xs sm:text-sm font-bold shadow-lg transition-colors duration-200"
               >
                 ×
               </button>
             </div>
-            <div style={{ color: '#4CAF50', fontWeight: 'bold', fontSize: '16px' }}>
+            <div className="text-green-600 font-bold text-sm sm:text-base">
               ✅ {selectedFile.name}
             </div>
-            <div style={{ fontSize: '12px', color: '#666', marginTop: '5px' }}>
+            <div className="text-xs sm:text-sm text-gray-500">
               {(selectedFile.size / 1024 / 1024).toFixed(2)} MB
             </div>
           </div>
         ) : (
-          <div>
-            <div style={{ 
-              fontSize: '48px', 
-              marginBottom: '15px',
-              filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.1))'
-            }}>
+          <div className="space-y-3 sm:space-y-4">
+            <div className="text-4xl sm:text-5xl md:text-6xl filter drop-shadow-lg">
               📷
             </div>
-            <div style={{ 
-              fontSize: '18px', 
-              fontWeight: 'bold', 
-              marginBottom: '10px',
-              color: '#333'
-            }}>
+            <div className="text-base sm:text-lg md:text-xl font-bold text-gray-800">
               Upload a photo
             </div>
-            <div style={{ 
-              fontSize: '14px', 
-              color: '#666', 
-              marginBottom: '20px',
-              lineHeight: '1.4'
-            }}>
-              Drag and drop or click to select<br/>
-              Upload plant images for disease detection
+            <div className="text-xs sm:text-sm md:text-base text-gray-600 px-2 leading-relaxed">
+              <span className="hidden sm:block">Drag and drop or click to select</span>
+              <span className="sm:hidden">Tap to take photo or select from gallery</span>
+              <br className="hidden sm:block" />
+              <span className="text-green-600 font-medium">Upload plant images for disease detection</span>
             </div>
-            <div style={{
-              display: 'inline-block',
-              padding: '12px 24px',
-              background: 'linear-gradient(45deg, #4CAF50, #45a049)',
-              color: 'white',
-              borderRadius: '10px',
-              fontWeight: 'bold',
-              boxShadow: '0 4px 8px rgba(76, 175, 80, 0.3)',
-              transition: 'transform 0.2s ease'
-            }}
-            onMouseEnter={(e) => e.target.style.transform = 'translateY(-2px)'}
-            onMouseLeave={(e) => e.target.style.transform = 'translateY(0)'}
-            >
-              📎 Choose File
+            
+            {/* Mobile buttons */}
+            <div className="space-y-2 sm:space-y-0 sm:space-x-3 flex flex-col sm:flex-row sm:justify-center">
+              <div className="inline-block px-4 py-2 sm:px-6 sm:py-3 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-full font-semibold text-sm sm:text-base shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200">
+                <span className="sm:hidden">📸 Take Photo / Choose File</span>
+                <span className="hidden sm:inline">📎 Choose File</span>
+              </div>
             </div>
           </div>
         )}
@@ -136,58 +104,33 @@ function UploadComponent({
           type="file"
           accept="image/*"
           onChange={handleFileInput}
-          style={{ display: 'none' }}
+          className="hidden"
+          capture="environment" // Prefer rear camera on mobile
         />
       </div>
 
       {/* Error Message */}
       {errorMessage && (
-        <div style={{
-          padding: '15px',
-          background: 'linear-gradient(135deg, #ffebee, #ffcdd2)',
-          border: '1px solid #f44336',
-          borderRadius: '10px',
-          color: '#c62828',
-          display: 'flex',
-          alignItems: 'center',
-          gap: '10px'
-        }}>
-          <span style={{ fontSize: '18px' }}>⚠️</span>
-          <div>
-            <div style={{ fontWeight: 'bold', marginBottom: '4px' }}>Upload Error</div>
-            <div style={{ fontSize: '14px' }}>{errorMessage}</div>
+        <div className="p-3 sm:p-4 bg-gradient-to-r from-red-50 to-red-100 border border-red-300 rounded-xl flex items-start gap-3">
+          <span className="text-lg sm:text-xl flex-shrink-0">⚠️</span>
+          <div className="min-w-0 flex-1">
+            <div className="font-bold text-red-800 text-sm sm:text-base mb-1">Upload Error</div>
+            <div className="text-red-700 text-xs sm:text-sm break-words">{errorMessage}</div>
           </div>
         </div>
       )}
 
       {/* File Requirements */}
-      <div style={{
-        padding: '15px',
-        background: 'linear-gradient(135deg, #e8f5e8, #c8e6c9)',
-        borderRadius: '10px',
-        border: '1px solid #4CAF50'
-      }}>
-        <div style={{ 
-          fontWeight: 'bold', 
-          color: '#2e7d32', 
-          marginBottom: '8px',
-          display: 'flex',
-          alignItems: 'center',
-          gap: '8px'
-        }}>
-          ℹ️ File Requirements
+      <div className="p-3 sm:p-4 bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl border border-green-200">
+        <div className="font-bold text-green-800 text-sm sm:text-base mb-2 flex items-center gap-2">
+          <span className="text-base sm:text-lg">ℹ️</span>
+          File Requirements
         </div>
-        <ul style={{ 
-          margin: 0, 
-          paddingLeft: '20px', 
-          color: '#2e7d32',
-          fontSize: '14px',
-          lineHeight: '1.5'
-        }}>
-          <li>Supported formats: JPEG, PNG, WEBP, GIF, BMP, TIFF, SVG</li>
-          <li>Maximum file size: 10 MB</li>
-          <li>Best results with clear, well-lit plant images</li>
-          <li>Focus on leaves, stems, or affected areas</li>
+        <ul className="text-green-700 text-xs sm:text-sm space-y-1 ml-4 list-disc">
+          <li>Formats: JPG, PNG, WEBP, GIF, BMP</li>
+          <li>Max size: 10 MB</li>
+          <li className="hidden sm:list-item">Best results with clear, well-lit images</li>
+          <li>Focus on affected plant areas</li>
         </ul>
       </div>
     </div>

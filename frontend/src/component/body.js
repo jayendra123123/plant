@@ -132,52 +132,55 @@ function Body() {
   };
 
   return (
-    <div style={{ 
-      minHeight: '100vh', 
-      background: 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)',
-      padding: '20px',
-      fontFamily: 'Arial, sans-serif'
-    }}>
-      <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
+    <div className="min-h-screen bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50 py-8 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div style={{ textAlign: 'center', marginBottom: '40px' }}>
-          <h1 style={{ 
-            fontSize: '36px', 
-            fontWeight: 'bold', 
-            color: '#333',
-            marginBottom: '10px'
-          }}>
-            🌱 AI PLANT DISEASE DETECTION
+        <div className="text-center mb-8 sm:mb-12">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-800 mb-3 sm:mb-4">
+            <span className="bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">
+              🌱 AI Plant Disease Detection
+            </span>
           </h1>
-          <p style={{ fontSize: '18px', color: '#666' }}>
-            Advanced plant health analysis
+          <p className="text-sm sm:text-base md:text-lg text-gray-600 max-w-2xl mx-auto px-4">
+            Advanced plant health analysis using artificial intelligence
           </p>
         </div>
         
-        <div style={{ 
-          background: 'white', 
-          borderRadius: '20px', 
-          padding: '40px',
-          boxShadow: '0 10px 30px rgba(0,0,0,0.1)'
-        }}>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '40px' }}>
-            <UploadComponent
-              onFileSelect={handleFileSelect}
-              selectedFile={selectedFile}
-              imagePreview={imagePreview}
-              errorMessage={errorMessage}
-              clearFile={clearFile}
-              handleFileInput={handleFileInput}
-            />
-            <AnalysisComponent
-              analysis={analysis}
-              isAnalyzing={isAnalyzing}
-              analysisProgress={analysisProgress}
-              imagePreview={imagePreview}
-              onAnalyze={handleAnalyze}
-              selectedFile={selectedFile}
-            />
+        {/* Main Content */}
+        <div className="bg-white rounded-xl sm:rounded-2xl shadow-xl border border-green-100 overflow-hidden">
+          {/* Mobile: Stack vertically, Desktop: Side by side */}
+          <div className="flex flex-col lg:flex-row">
+            {/* Upload Section */}
+            <div className="flex-1 p-4 sm:p-6 lg:p-8 border-b lg:border-b-0 lg:border-r border-green-100">
+              <UploadComponent
+                onFileSelect={handleFileSelect}
+                selectedFile={selectedFile}
+                imagePreview={imagePreview}
+                errorMessage={errorMessage}
+                clearFile={clearFile}
+                handleFileInput={handleFileInput}
+              />
+            </div>
+            
+            {/* Analysis Section */}
+            <div className="flex-1 p-4 sm:p-6 lg:p-8">
+              <AnalysisComponent
+                analysis={analysis}
+                isAnalyzing={isAnalyzing}
+                analysisProgress={analysisProgress}
+                imagePreview={imagePreview}
+                onAnalyze={handleAnalyze}
+                selectedFile={selectedFile}
+              />
+            </div>
           </div>
+        </div>
+        
+        {/* Mobile Helper Text */}
+        <div className="mt-6 sm:mt-8 text-center lg:hidden">
+          <p className="text-xs sm:text-sm text-gray-500 px-4">
+            💡 Tip: For best results, take clear photos in good lighting
+          </p>
         </div>
       </div>
     </div>

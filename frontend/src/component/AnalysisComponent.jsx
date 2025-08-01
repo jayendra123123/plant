@@ -12,162 +12,120 @@ function AnalysisComponent({
   const safeDetails = analysis?.details && typeof analysis.details === 'object' ? analysis.details : {};
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
-        <span style={{ fontSize: '20px' }}>👁️</span>
-        <h2 style={{ fontSize: '20px', fontWeight: '600', color: '#1f2937', margin: 0 }}>Plant Health Analysis</h2>
+    <div className="flex flex-col gap-4 sm:gap-6">
+      <div className="flex items-center gap-2 mb-3 sm:mb-4">
+        <span className="text-lg sm:text-xl">👁️</span>
+        <h2 className="text-lg sm:text-xl font-semibold text-gray-800 m-0">Plant Health Analysis</h2>
       </div>
       
-      <div style={{
-        background: '#f8f9fa',
-        borderRadius: '15px',
-        padding: '30px',
-        minHeight: '400px',
-        border: '1px solid #e9ecef'
-      }}>
+      <div className="bg-gray-50 rounded-xl sm:rounded-2xl p-4 sm:p-6 lg:p-8 min-h-[300px] sm:min-h-[400px] border border-gray-200">
         {analysis ? (
-          <div style={{ animation: 'fadeIn 0.6s ease-out' }}>
+          <div className="animate-fadeIn space-y-4 sm:space-y-6">
             {imagePreview && (
-              <div style={{ textAlign: 'center', marginBottom: '20px' }}>
+              <div className="text-center mb-4 sm:mb-6">
                 <img 
                   src={imagePreview} 
                   alt="Analyzed plant" 
-                  style={{
-                    width: '200px',
-                    height: '200px',
-                    objectFit: 'cover',
-                    borderRadius: '10px',
-                    marginBottom: '10px',
-                    boxShadow: '0 4px 8px rgba(0,0,0,0.1)'
-                  }}
+                  className="w-32 h-32 sm:w-48 sm:h-48 object-cover rounded-xl mx-auto shadow-lg mb-2"
                 />
-                <div style={{ fontSize: '14px', color: '#666', fontWeight: '500' }}>
+                <div className="text-xs sm:text-sm text-gray-600 font-medium">
                   Analyzed Plant Image
                 </div>
               </div>
             )}
 
             {/* Category + Plant Info */}
-            <div style={{
-              textAlign: 'center',
-              marginBottom: '20px',
-              padding: '15px',
-              background: analysis.severity === 'None' 
-                ? 'linear-gradient(135deg, #e8f5e8, #c8e6c9)' 
+            <div className={`
+              text-center mb-4 sm:mb-6 p-3 sm:p-4 rounded-xl border-2 
+              ${analysis.severity === 'None' 
+                ? 'bg-gradient-to-r from-green-50 to-emerald-50 border-green-500' 
                 : analysis.severity === 'Mild'
-                  ? 'linear-gradient(135deg, #fff3cd, #ffeaa7)'
-                  : 'linear-gradient(135deg, #ffebee, #ffcdd2)',
-              borderRadius: '12px',
-              border: `2px solid ${
-                analysis.severity === 'None' ? '#4CAF50' : 
-                analysis.severity === 'Mild' ? '#ffc107' : '#f44336'
-              }`
-            }}>
-              <div style={{
-                fontSize: '20px',
-                fontWeight: 'bold',
-                color: analysis.severity === 'None' ? '#2e7d32' : 
-                       analysis.severity === 'Mild' ? '#856404' : '#c62828',
-                marginBottom: '5px'
-              }}>
+                  ? 'bg-gradient-to-r from-yellow-50 to-amber-50 border-yellow-500'
+                  : 'bg-gradient-to-r from-red-50 to-pink-50 border-red-500'
+              }
+            `}>
+              <div className={`
+                text-lg sm:text-xl font-bold mb-1
+                ${analysis.severity === 'None' ? 'text-green-800' : 
+                  analysis.severity === 'Mild' ? 'text-yellow-800' : 'text-red-800'}
+              `}>
                 {analysis.category}
               </div>
-              <div style={{ fontSize: '14px', color: '#666' }}>
+              <div className="text-xs sm:text-sm text-gray-600">
                 <strong>Plant:</strong> {analysis.plantType}
               </div>
             </div>
 
             {/* Confidence */}
-            <div style={{ marginBottom: '25px' }}>
-              <div style={{ 
-                display: 'flex', 
-                justifyContent: 'space-between', 
-                marginBottom: '8px',
-                alignItems: 'center'
-              }}>
-                <span style={{ fontWeight: '600', color: '#333' }}>Detection Confidence</span>
-                <span style={{ 
-                  fontWeight: 'bold', 
-                  color: '#4CAF50', 
-                  fontSize: '16px',
-                  padding: '4px 8px',
-                  background: '#e8f5e8',
-                  borderRadius: '6px'
-                }}>
+            <div className="mb-4 sm:mb-6 space-y-2">
+              <div className="flex justify-between items-center">
+                <span className="font-semibold text-gray-800 text-sm sm:text-base">Detection Confidence</span>
+                <span className="font-bold text-green-600 text-sm sm:text-base px-2 py-1 bg-green-50 rounded-lg">
                   {analysis.confidence}%
                 </span>
               </div>
-              <div style={{
-                width: '100%',
-                background: '#e0e0e0',
-                borderRadius: '10px',
-                height: '10px',
-                overflow: 'hidden'
-              }}>
+              <div className="w-full bg-gray-200 rounded-full h-2 sm:h-3 overflow-hidden">
                 <div 
-                  style={{
-                    height: '100%',
-                    background: 'linear-gradient(90deg, #4CAF50, #81C784)',
-                    width: `${analysis.confidence}%`,
-                    borderRadius: '10px',
-                    transition: 'width 1.5s ease-out'
-                  }}
+                  className="h-full bg-gradient-to-r from-green-500 to-emerald-400 rounded-full transition-all duration-1000 ease-out"
+                  style={{ width: `${analysis.confidence}%` }}
                 ></div>
               </div>
             </div>
 
             {/* Severity */}
             {analysis.severity !== 'None' && (
-              <div style={{
-                padding: '15px',
-                background: 'linear-gradient(135deg, #fff3e0, #ffe0b2)',
-                border: '1px solid #ff9800',
-                borderRadius: '10px',
-                marginBottom: '20px'
-              }}>
-                <div style={{ 
-                  display: 'flex', 
-                  alignItems: 'center', 
-                  gap: '8px',
-                  fontWeight: 'bold',
-                  color: '#e65100'
-                }}>
-                  <div style={{
-                    width: '12px',
-                    height: '12px',
-                    background: '#ff9800',
-                    borderRadius: '50%'
-                  }}></div>
+              <div className="p-3 sm:p-4 bg-gradient-to-r from-orange-50 to-amber-50 border border-orange-300 rounded-xl mb-4 sm:mb-6">
+                <div className="flex items-center gap-2 font-bold text-orange-800 text-sm sm:text-base">
+                  <div className="w-3 h-3 bg-orange-500 rounded-full"></div>
                   Severity: {analysis.severity}
                 </div>
               </div>
             )}
 
             {/* Description */}
-            <div style={{ marginBottom: '25px' }}>
-              <h3 style={sectionHeader}>🔍 Diagnosis</h3>
-              <p style={sectionText}>{analysis.description}</p>
+            <div className="mb-4 sm:mb-6 space-y-2 sm:space-y-3">
+              <h3 className="text-base sm:text-lg font-bold text-gray-800 pb-1 border-b-2 border-gray-200">
+                🔍 Diagnosis
+              </h3>
+              <p className="text-sm sm:text-base text-gray-700 p-3 sm:p-4 bg-blue-50 rounded-lg border-l-4 border-blue-500 leading-relaxed">
+                {analysis.description}
+              </p>
             </div>
 
             {/* Treatment */}
-            <div style={{ marginBottom: '25px' }}>
-              <h3 style={sectionHeader}>💊 Recommended Treatment</h3>
-              <div style={treatmentBox}>{analysis.treatment}</div>
+            <div className="mb-4 sm:mb-6 space-y-2 sm:space-y-3">
+              <h3 className="text-base sm:text-lg font-bold text-gray-800 pb-1 border-b-2 border-gray-200">
+                💊 Recommended Treatment
+              </h3>
+              <div className="p-3 sm:p-4 bg-gradient-to-r from-blue-50 to-cyan-50 border border-blue-300 rounded-xl text-blue-800 font-medium text-sm sm:text-base">
+                {analysis.treatment}
+              </div>
             </div>
 
             {/* Prevention */}
-            <div style={{ marginBottom: '25px' }}>
-              <h3 style={sectionHeader}>🛡️ Prevention Tips</h3>
-              <div style={preventionBox}>{analysis.prevention}</div>
+            <div className="mb-4 sm:mb-6 space-y-2 sm:space-y-3">
+              <h3 className="text-base sm:text-lg font-bold text-gray-800 pb-1 border-b-2 border-gray-200">
+                🛡️ Prevention Tips
+              </h3>
+              <div className="p-3 sm:p-4 bg-gradient-to-r from-green-50 to-emerald-50 border border-green-300 rounded-xl text-green-800 font-medium text-sm sm:text-base">
+                {analysis.prevention}
+              </div>
             </div>
 
             {/* Tags */}
             {safeTags.length > 0 && (
-              <div style={{ marginBottom: '25px' }}>
-                <h3 style={sectionHeader}>🏷️ Tags</h3>
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+              <div className="mb-4 sm:mb-6 space-y-2 sm:space-y-3">
+                <h3 className="text-base sm:text-lg font-bold text-gray-800 pb-1 border-b-2 border-gray-200">
+                  🏷️ Tags
+                </h3>
+                <div className="flex flex-wrap gap-2">
                   {safeTags.map((tag, index) => (
-                    <span key={index} style={tagStyle}>{tag}</span>
+                    <span 
+                      key={index} 
+                      className="px-3 py-1 bg-gradient-to-r from-blue-100 to-cyan-100 text-blue-700 rounded-full text-xs sm:text-sm font-bold border border-blue-300"
+                    >
+                      {tag}
+                    </span>
                   ))}
                 </div>
               </div>
@@ -175,19 +133,20 @@ function AnalysisComponent({
 
             {/* Details */}
             {Object.keys(safeDetails).length > 0 && (
-              <div>
-                <h3 style={sectionHeader}>📋 Detailed Information</h3>
-                <div style={detailsContainer}>
+              <div className="space-y-2 sm:space-y-3">
+                <h3 className="text-base sm:text-lg font-bold text-gray-800 pb-1 border-b-2 border-gray-200">
+                  📋 Detailed Information
+                </h3>
+                <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
                   {Object.entries(safeDetails).map(([key, value], index) => (
                     <div 
                       key={index} 
-                      style={{
-                        ...detailsRow,
-                        backgroundColor: index % 2 === 0 ? '#fafafa' : 'white'
-                      }}
+                      className={`flex flex-col sm:flex-row sm:justify-between p-3 sm:p-4 border-b border-gray-100 last:border-b-0 ${
+                        index % 2 === 0 ? 'bg-gray-25' : 'bg-white'
+                      }`}
                     >
-                      <span style={detailsKey}>{key}</span>
-                      <span style={detailsValue}>{value}</span>
+                      <span className="font-semibold text-gray-700 text-sm sm:text-base mb-1 sm:mb-0">{key}</span>
+                      <span className="text-gray-600 text-sm sm:text-base sm:text-right">{value}</span>
                     </div>
                   ))}
                 </div>
@@ -195,19 +154,12 @@ function AnalysisComponent({
             )}
           </div>
         ) : (
-          <div style={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-            height: '100%',
-            textAlign: 'center'
-          }}>
-            <div style={{ fontSize: '64px', marginBottom: '20px' }}>🧠</div>
-            <p style={{ color: '#666', marginBottom: '10px', fontSize: '18px', fontWeight: '500' }}>
+          <div className="flex flex-col items-center justify-center h-full text-center py-8 sm:py-12">
+            <div className="text-4xl sm:text-5xl md:text-6xl mb-4 sm:mb-6">🧠</div>
+            <p className="text-gray-600 mb-2 sm:mb-3 text-base sm:text-lg font-medium px-4">
               Upload a plant image to detect diseases
             </p>
-            <p style={{ fontSize: '14px', color: '#999' }}>
+            <p className="text-xs sm:text-sm text-gray-500 px-4 leading-relaxed">
               AI-powered plant health analysis and treatment recommendations will appear here
             </p>
           </div>
@@ -218,23 +170,26 @@ function AnalysisComponent({
       <button
         onClick={onAnalyze}
         disabled={!selectedFile || isAnalyzing}
-        style={{
-          width: '100%',
-          padding: '15px',
-          background: selectedFile && !isAnalyzing 
-            ? 'linear-gradient(45deg, #2196F3, #1976D2)' 
-            : '#ccc',
-          color: 'white',
-          border: 'none',
-          borderRadius: '10px',
-          fontSize: '16px',
-          fontWeight: 'bold',
-          cursor: selectedFile && !isAnalyzing ? 'pointer' : 'not-allowed',
-          transition: 'all 0.3s ease',
-          boxShadow: selectedFile && !isAnalyzing ? '0 4px 15px rgba(33, 150, 243, 0.3)' : 'none'
-        }}
+        className={`
+          w-full p-3 sm:p-4 rounded-xl text-white font-bold text-sm sm:text-base transition-all duration-300
+          ${selectedFile && !isAnalyzing 
+            ? 'bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 shadow-lg hover:shadow-xl transform hover:scale-[1.02] cursor-pointer' 
+            : 'bg-gray-400 cursor-not-allowed'
+          }
+        `}
       >
-        {isAnalyzing ? `🔄 Analyzing... ${Math.round(analysisProgress)}%` : '✨ Analyze Plant Health'}
+        {isAnalyzing ? (
+          <span className="flex items-center justify-center gap-2">
+            <span className="animate-spin">🔄</span>
+            Analyzing... {Math.round(analysisProgress)}%
+          </span>
+        ) : (
+          <span className="flex items-center justify-center gap-2">
+            <span>✨</span>
+            <span className="hidden sm:inline">Analyze Plant Health</span>
+            <span className="sm:hidden">Analyze Plant</span>
+          </span>
+        )}
       </button>
 
       {/* Progress Bar */}

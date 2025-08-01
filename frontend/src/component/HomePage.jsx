@@ -54,25 +54,25 @@ const HomePage = ({ setCurrentPage }) => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50">
       {/* Hero Section */}
-      <section className="relative py-20 px-4 sm:px-6 lg:px-8">
+      <section className="relative py-12 sm:py-16 md:py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto text-center">
-          <h1 className="text-5xl md:text-6xl font-bold mb-6">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 leading-tight">
             <span className="bg-gradient-to-r from-green-600 via-emerald-600 to-teal-600 bg-clip-text text-transparent">
               Protect Your Plants
             </span>
           </h1>
-          <p className="text-xl text-gray-700 mb-8 max-w-3xl mx-auto">
+          <p className="text-base sm:text-lg md:text-xl text-gray-700 mb-6 sm:mb-8 max-w-3xl mx-auto px-4 leading-relaxed">
             Discover the fascinating world of plants and use AI-powered technology to detect diseases early, 
             ensuring your green companions stay healthy and thriving.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center px-4">
             <button 
               onClick={() => setCurrentPage('detection')}
-              className="bg-gradient-to-r from-green-500 to-emerald-600 text-white px-8 py-4 rounded-full font-semibold text-lg hover:shadow-xl hover:scale-105 transition-all duration-300"
+              className="bg-gradient-to-r from-green-500 to-emerald-600 text-white px-6 py-3 sm:px-8 sm:py-4 rounded-full font-semibold text-base sm:text-lg hover:shadow-xl hover:scale-105 transition-all duration-300 w-full sm:w-auto"
             >
               Start Disease Detection
             </button>
-            <button className="border-2 border-green-500 text-green-600 px-8 py-4 rounded-full font-semibold text-lg hover:bg-green-50 transition-all duration-300">
+            <button className="border-2 border-green-500 text-green-600 px-6 py-3 sm:px-8 sm:py-4 rounded-full font-semibold text-base sm:text-lg hover:bg-green-50 transition-all duration-300 w-full sm:w-auto">
               Learn More
             </button>
           </div>
@@ -80,22 +80,22 @@ const HomePage = ({ setCurrentPage }) => {
       </section>
 
       {/* Plant Facts Section */}
-      <section className="py-16 px-4 sm:px-6 lg:px-8">
+      <section className="py-12 sm:py-16 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
-          <h2 className="text-4xl font-bold text-center mb-12">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-8 sm:mb-12">
             <span className="bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">
               Amazing Plant Facts
             </span>
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
             {plantFacts.map((fact, index) => (
               <div 
                 key={index} 
-                className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transform hover:-translate-y-2 transition-all duration-300 border border-green-100"
+                className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-lg hover:shadow-xl transform hover:-translate-y-2 transition-all duration-300 border border-green-100"
               >
-                <div className="text-4xl mb-4 text-center">{fact.icon}</div>
-                <h3 className="text-xl font-bold text-gray-800 mb-3 text-center">{fact.title}</h3>
-                <p className="text-gray-600 text-center leading-relaxed">{fact.description}</p>
+                <div className="text-3xl sm:text-4xl mb-3 sm:mb-4 text-center">{fact.icon}</div>
+                <h3 className="text-lg sm:text-xl font-bold text-gray-800 mb-2 sm:mb-3 text-center">{fact.title}</h3>
+                <p className="text-sm sm:text-base text-gray-600 text-center leading-relaxed">{fact.description}</p>
               </div>
             ))}
           </div>
