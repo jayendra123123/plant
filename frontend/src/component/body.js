@@ -80,12 +80,8 @@ function Body() {
       const formData = new FormData();
       formData.append('image', selectedFile);
 
-      // Call the API - works for both development and production
-      const apiUrl = process.env.NODE_ENV === 'development' 
-        ? 'http://localhost:3000/api/analyze'
-        : '/api/analyze';
-
-      const response = await fetch(apiUrl, {
+      // Call the backend API
+      const response = await fetch('https://plant-5vo0.onrender.com/api/analyze', {
         method: 'POST',
         body: formData,
       });
