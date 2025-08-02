@@ -174,8 +174,6 @@ app.post('/api/analyze', upload.single('image'), async (req, res) => {
     });
   }
 });
-
-// Health check endpoint
 app.get('/api/health', (req, res) => {
   res.json({ 
     status: 'OK', 
@@ -183,14 +181,10 @@ app.get('/api/health', (req, res) => {
     geminiStatus: process.env.GEMINI_API_KEY ? 'Configured' : 'Not Configured'
   });
 });
-
-// Create uploads directory if it doesn't exist
 if (!fs.existsSync('uploads')) {
   fs.mkdirSync('uploads');
   console.log('Created uploads directory');
 }
-
-// Error handling middleware
 app.use((error, req, res, next) => {
   if (error instanceof multer.MulterError) {
     if (error.code === 'LIMIT_FILE_SIZE') {
