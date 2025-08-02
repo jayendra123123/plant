@@ -1,8 +1,11 @@
 {
-  "name": "plant-disease-detection-api",
+  "name": "plant-disease-detection",
   "version": "1.0.0",
-  "description": "Vercel API for plant disease detection",
-  "main": "api/analyze.js",
+  "description": "Plant disease detection app with Vercel API",
+  "scripts": {
+    "build": "cd frontend && npm install && npm run build",
+    "dev": "cd frontend && npm start"
+  },
   "dependencies": {
     "@google/generative-ai": "^0.12.0",
     "formidable": "^3.5.1"
