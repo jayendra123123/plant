@@ -80,8 +80,11 @@ function Body() {
       const formData = new FormData();
       formData.append('image', selectedFile);
 
+      // Get API URL from environment variables or fallback
+      const apiUrl = process.env.REACT_APP_API_BASE_URL || 'https://plant-5vo0.onrender.com/api';
+      
       // Call the backend API
-      const response = await fetch('https://plant-5vo0.onrender.com/api/analyze', {
+      const response = await fetch(`${apiUrl}/analyze`, {
         method: 'POST',
         body: formData,
       });
