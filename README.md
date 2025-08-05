@@ -19,27 +19,6 @@ A full-stack application for plant disease detection using AI image analysis.
 
 - Node.js (v14 or higher)
 - npm or yarn
-
-### Installation
-
-1. Clone the repository:
-```bash
-git clone https://github.com/jayendra123123/plant.git
-cd plant
-```
-
-2. Install backend dependencies:
-```bash
-cd backend
-npm install
-```
-
-3. Install frontend dependencies:
-```bash
-cd frontend
-npm install
-```
-
 ### Environment Setup
 
 Create a `.env` file in the backend directory with your API keys:
